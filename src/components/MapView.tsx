@@ -1,6 +1,6 @@
 import { useEffect, useImperativeHandle, useRef, forwardRef } from 'react';
 import maplibregl from 'maplibre-gl';
-import { CATEGORIES } from '../data/categories';
+import { CATEGORIES, CATEGORY_LIST } from '../data/categories';
 import { EDINBURGH_DEMO_COORDS } from '../services/location';
 import type { Coordinates, Place } from '../types/place';
 
@@ -44,23 +44,132 @@ function buildAvatarElement(isDemoMode: boolean): HTMLDivElement {
   return root;
 }
 
+function declutterBaseMap(map: maplibregl.Map): void {
+  const layers = map.getStyle()?.layers ?? [];
+  for (const layer of layers) {
+    // Hide all generic base-map POIs (offices, schools, clubs, generic shops, etc.)
+    // while keeping transit stops/stations (`poi_transit`), street names, and place/water labels.
+    if (
+      'source-layer' in layer &&
+      layer['source-layer'] === 'poi' &&
+      layer.id !== 'poi_transit'
+    ) {
+      map.setLayoutProperty(layer.id, 'visibility', 'none');
+    }
+  }
+
+  // Show bus & train stations cleanly when zoomed in
+  if (map.getLayer('poi_transit')) {
+    map.setLayerZoomRange('poi_transit', 13, 24);
+  }
+}
+
+function createEmojiPinImage(
+  emoji: string,
+  borderColor: string,
+  bgColor: string,
+  visited: boolean,
+): ImageData {
+  const size = 68; // Rendered at 2x pixelRatio -> 34px logical badge
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) {
+    return new ImageData(size, size);
+  }
+
+  const cx = size / 2;
+  const cy = size / 2;
+  const r = 24;
+
+  // Soft drop shadow + warm badge fill
+  ctx.save();
+  ctx.shadowColor = 'rgba(36, 30, 26, 0.28)';
+  ctx.shadowBlur = 7;
+  ctx.shadowOffsetY = 3;
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, 0, Math.PI * 2);
+  ctx.fillStyle = bgColor;
+  ctx.fill();
+  ctx.restore();
+
+  // Category-colored ring (golden ring when visited)
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, 0, Math.PI * 2);
+  ctx.lineWidth = visited ? 5 : 4.5;
+  ctx.strokeStyle = visited ? '#E5B25D' : borderColor;
+  ctx.stroke();
+
+  // Native color emoji centered inside badge
+  ctx.font = '27px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(emoji, cx, cy + 2);
+
+  // Small checkmark badge in top-right when visited
+  if (visited) {
+    ctx.beginPath();
+    ctx.arc(cx + 17, cy - 17, 9, 0, Math.PI * 2);
+    ctx.fillStyle = '#2E6F5E';
+    ctx.fill();
+    ctx.lineWidth = 2.5;
+    ctx.strokeStyle = '#FAF6F0';
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(cx + 13, cy - 17);
+    ctx.lineTo(cx + 16, cy - 14);
+    ctx.lineTo(cx + 21, cy - 20);
+    ctx.lineWidth = 2.5;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.strokeStyle = '#FAF6F0';
+    ctx.stroke();
+  }
+
+  return ctx.getImageData(0, 0, size, size);
+}
+
+function registerEmojiPinSprites(map: maplibregl.Map): void {
+  for (const cat of CATEGORY_LIST) {
+    const normalId = `pin-${cat.id}`;
+    if (!map.hasImage(normalId)) {
+      map.addImage(normalId, createEmojiPinImage(cat.emoji, cat.color, '#FFFDF9', false), {
+        pixelRatio: 2,
+      });
+    }
+
+    const visitedId = `pin-${cat.id}-visited`;
+    if (!map.hasImage(visitedId)) {
+      map.addImage(visitedId, createEmojiPinImage(cat.emoji, cat.color, cat.softBg, true), {
+        pixelRatio: 2,
+      });
+    }
+  }
+}
+
 function placesToGeoJSON(places: Place[], visitedIds: Set<string>) {
   return {
     type: 'FeatureCollection' as const,
-    features: places.map((place) => ({
-      type: 'Feature' as const,
-      geometry: {
-        type: 'Point' as const,
-        coordinates: [place.lng, place.lat] as [number, number],
-      },
-      properties: {
-        id: place.id,
-        name: place.name,
-        category: place.category,
-        color: CATEGORIES[place.category].color,
-        visited: visitedIds.has(place.id) ? 1 : 0,
-      },
-    })),
+    features: places.map((place) => {
+      const isVisited = visitedIds.has(place.id);
+      return {
+        type: 'Feature' as const,
+        geometry: {
+          type: 'Point' as const,
+          coordinates: [place.lng, place.lat] as [number, number],
+        },
+        properties: {
+          id: place.id,
+          name: place.name,
+          category: place.category,
+          color: CATEGORIES[place.category].color,
+          icon: isVisited ? `pin-${place.category}-visited` : `pin-${place.category}`,
+          visited: isVisited ? 1 : 0,
+        },
+      };
+    }),
   };
 }
 
@@ -119,6 +228,9 @@ export const MapView = forwardRef<MapViewHandle, MapViewProps>(function MapView(
     map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-left');
 
     map.on('load', () => {
+      declutterBaseMap(map);
+      registerEmojiPinSprites(map);
+
       map.addSource(SOURCE_ID, {
         type: 'geojson',
         data: placesToGeoJSON(places, visitedIds),
@@ -160,7 +272,7 @@ export const MapView = forwardRef<MapViewHandle, MapViewProps>(function MapView(
         source: SOURCE_ID,
         filter: ['==', ['get', 'id'], ''],
         paint: {
-          'circle-radius': 16,
+          'circle-radius': 23,
           'circle-color': 'rgba(196, 69, 105, 0.22)',
           'circle-stroke-width': 2.5,
           'circle-stroke-color': '#C44569',
@@ -169,19 +281,14 @@ export const MapView = forwardRef<MapViewHandle, MapViewProps>(function MapView(
 
       map.addLayer({
         id: POINT_LAYER_ID,
-        type: 'circle',
+        type: 'symbol',
         source: SOURCE_ID,
         filter: ['!', ['has', 'point_count']],
-        paint: {
-          'circle-radius': ['interpolate', ['linear'], ['zoom'], 8, 5, 13, 8.5, 16, 11],
-          'circle-color': ['get', 'color'],
-          'circle-stroke-width': 2.5,
-          'circle-stroke-color': [
-            'case',
-            ['==', ['get', 'visited'], 1],
-            '#E5B25D',
-            '#FAF6F0',
-          ],
+        layout: {
+          'icon-image': ['get', 'icon'],
+          'icon-size': ['interpolate', ['linear'], ['zoom'], 9, 0.72, 13, 0.92, 16, 1.08],
+          'icon-allow-overlap': true,
+          'icon-ignore-placement': true,
         },
       });
 
