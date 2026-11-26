@@ -25,21 +25,63 @@ interface MapViewProps {
   onClearSelection: () => void;
 }
 
+const AVATAR_QUIPS = [
+  'Ready to thrift! ✨',
+  'Matcha time? 🍵',
+  'Bookshop hunt! 📚',
+  'Cosy cafe break? ☕',
+  'Pastry stop? 🥐',
+  'Treasure hunting! 🏺',
+];
+
 function buildAvatarElement(isDemoMode: boolean): HTMLDivElement {
   const base = import.meta.env.BASE_URL || '/';
-  const avatarSrc = `${base.endsWith('/') ? base : `${base}/`}icons/angi-avatar.svg`;
+  const avatarSrc = `${base.endsWith('/') ? base : `${base}/`}icons/angi-avatar.png`;
 
   const root = document.createElement('div');
   root.className = 'avatar-marker';
   root.setAttribute('aria-label', 'Your location');
+  root.setAttribute('role', 'button');
+  root.setAttribute('tabindex', '0');
 
   root.innerHTML = `
-    <div class="avatar-pulse"></div>
+    <div class="avatar-bubble" aria-live="polite"></div>
+    <span class="avatar-sparkle sparkle-1" aria-hidden="true">✦</span>
+    <span class="avatar-sparkle sparkle-2" aria-hidden="true">✦</span>
     <div class="avatar-frame">
       <img src="${avatarSrc}" alt="Angi" class="avatar-img" />
     </div>
+    <div class="avatar-pulse"></div>
     <div class="avatar-tag">${isDemoMode ? 'Demo' : 'You'}</div>
   `;
+
+  let quipIndex = 0;
+  let hideTimer: number | undefined;
+  const bubble = root.querySelector('.avatar-bubble') as HTMLDivElement | null;
+  const frame = root.querySelector('.avatar-frame') as HTMLDivElement | null;
+
+  const triggerJoy = (e: Event) => {
+    e.stopPropagation();
+    if (frame) {
+      frame.classList.remove('is-jumping');
+      void frame.offsetWidth; // restart CSS keyframe animation cleanly
+      frame.classList.add('is-jumping');
+    }
+    if (bubble) {
+      bubble.textContent = AVATAR_QUIPS[quipIndex % AVATAR_QUIPS.length];
+      quipIndex += 1;
+      bubble.classList.add('visible');
+      if (hideTimer !== undefined) window.clearTimeout(hideTimer);
+      hideTimer = window.setTimeout(() => {
+        bubble.classList.remove('visible');
+      }, 2400);
+    }
+  };
+
+  root.addEventListener('click', triggerJoy);
+  root.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') triggerJoy(e);
+  });
 
   return root;
 }
@@ -385,7 +427,7 @@ export const MapView = forwardRef<MapViewHandle, MapViewProps>(function MapView(
       const el = buildAvatarElement(isDemoMode);
       avatarMarkerRef.current = new maplibregl.Marker({
         element: el,
-        anchor: 'center',
+        anchor: 'bottom',
       })
         .setLngLat([userCoords.lng, userCoords.lat])
         .addTo(map);

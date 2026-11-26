@@ -49,74 +49,196 @@ body,
   height: 100%;
 }
 
-/* Cartoon Avatar Marker */
+/* Cartoon Chibi Avatar Marker */
 .avatar-marker {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  pointer-events: auto;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.avatar-bubble {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px) scale(0.85);
+  opacity: 0;
   pointer-events: none;
+  white-space: nowrap;
+  padding: 5px 10px;
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  transition: opacity 0.2s ease, transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 4;
+}
+
+.avatar-bubble::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--surface);
+}
+
+.avatar-bubble.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.avatar-sparkle {
+  position: absolute;
+  font-size: 11px;
+  color: var(--accent-gold);
+  pointer-events: none;
+  z-index: 3;
+  text-shadow: 0 1px 4px rgba(36, 30, 26, 0.25);
+  opacity: 0;
+}
+
+.avatar-sparkle.sparkle-1 {
+  top: 2px;
+  right: -6px;
+  animation: sparkleFloat 3.4s ease-in-out infinite;
+}
+
+.avatar-sparkle.sparkle-2 {
+  top: 18px;
+  left: -8px;
+  font-size: 9px;
+  color: var(--accent-rose);
+  animation: sparkleFloat 3.4s ease-in-out 1.7s infinite;
 }
 
 .avatar-pulse {
   position: absolute;
-  top: 50%;
+  bottom: 15px;
   left: 50%;
-  width: 72px;
-  height: 72px;
-  transform: translate(-50%, -56%);
+  width: 44px;
+  height: 22px;
+  transform: translateX(-50%);
   border-radius: 50%;
-  background: rgba(196, 69, 105, 0.25);
+  background: rgba(196, 69, 105, 0.32);
   animation: avatarPulse 2.4s ease-out infinite;
+  z-index: 0;
 }
 
 .avatar-frame {
   position: relative;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  box-shadow: 0 6px 18px rgba(36, 30, 26, 0.28);
-  animation: avatarBob 3.2s ease-in-out infinite;
+  z-index: 1;
+  width: 50px;
+  height: auto;
+  transform-origin: bottom center;
+  animation: avatarIdle 4.2s ease-in-out infinite;
+  filter: drop-shadow(0 0 2px #fffdf9) drop-shadow(0 6px 10px rgba(36, 30, 26, 0.34));
+}
+
+.avatar-frame.is-jumping {
+  animation: avatarJump 0.62s cubic-bezier(0.34, 1.56, 0.64, 1), avatarIdle 4.2s ease-in-out 0.65s infinite;
 }
 
 .avatar-img {
   display: block;
   width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
+  height: auto;
 }
 
 .avatar-tag {
-  margin-top: 3px;
-  padding: 1px 7px;
+  position: relative;
+  z-index: 2;
+  margin-top: 2px;
+  padding: 1px 8px;
   border-radius: 999px;
   background: var(--ink);
   color: var(--bg-cream);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.02em;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.22);
 }
 
 @keyframes avatarPulse {
   0% {
-    transform: translate(-50%, -56%) scale(0.75);
-    opacity: 0.7;
+    transform: translateX(-50%) scale(0.7);
+    opacity: 0.75;
   }
   100% {
-    transform: translate(-50%, -56%) scale(1.45);
+    transform: translateX(-50%) scale(1.65);
     opacity: 0;
   }
 }
 
-@keyframes avatarBob {
+@keyframes avatarIdle {
   0%,
   100% {
-    transform: translateY(0);
+    transform: translateY(0) rotate(0deg) scale(1, 1);
   }
-  50% {
-    transform: translateY(-3px);
+  20% {
+    transform: translateY(-2px) rotate(-2.5deg) scale(0.985, 1.02);
+  }
+  40% {
+    transform: translateY(0) rotate(0deg) scale(1.02, 0.98);
+  }
+  60% {
+    transform: translateY(-2.5px) rotate(2.5deg) scale(0.985, 1.02);
+  }
+  78% {
+    transform: translateY(-5px) rotate(0deg) scale(0.97, 1.04);
+  }
+  88% {
+    transform: translateY(0) rotate(0deg) scale(1.03, 0.96);
+  }
+}
+
+@keyframes avatarJump {
+  0% {
+    transform: translateY(0) scale(1.08, 0.9) rotate(0deg);
+  }
+  35% {
+    transform: translateY(-16px) scale(0.94, 1.08) rotate(-5deg);
+  }
+  65% {
+    transform: translateY(-10px) scale(0.97, 1.04) rotate(5deg);
+  }
+  85% {
+    transform: translateY(1px) scale(1.05, 0.94) rotate(0deg);
+  }
+  100% {
+    transform: translateY(0) scale(1, 1) rotate(0deg);
+  }
+}
+
+@keyframes sparkleFloat {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translateY(4px) scale(0.5) rotate(0deg);
+  }
+  45% {
+    opacity: 0.95;
+    transform: translateY(-4px) scale(1.1) rotate(20deg);
+  }
+  70% {
+    opacity: 0.6;
+    transform: translateY(-8px) scale(0.85) rotate(35deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .avatar-frame,
+  .avatar-pulse,
+  .avatar-sparkle {
+    animation: none;
   }
 }
 

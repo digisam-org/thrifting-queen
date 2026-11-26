@@ -11,7 +11,7 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: [
-        'icons/angi-avatar.svg',
+        'icons/angi-avatar.png',
         'icons/icon-192.svg',
         'icons/icon-512.svg',
         'data/scotland-places.json',
