@@ -1,0 +1,373 @@
+{
+  "version": 1,
+  "generatedAt": "2026-11-26T00:00:00Z",
+  "region": "Scotland (Starter Seed — run `npm run data:fetch` for full OSM dataset)",
+  "places": [
+    {
+      "id": "seed-ed-1",
+      "name": "Topping & Company Booksellers",
+      "category": "bookshop",
+      "lat": 55.9565,
+      "lng": -3.1844,
+      "address": "2 Blenheim Place, Edinburgh EH7 5JH",
+      "city": "Edinburgh",
+      "openingHours": "Mo-Su 09:00-21:00",
+      "website": "https://www.toppingbooks.co.uk",
+      "source": "seed"
+    },
+    {
+      "id": "seed-ed-2",
+      "name": "Armchair Books",
+      "category": "bookshop",
+      "lat": 55.9469,
+      "lng": -3.1986,
+      "address": "72-74 West Port, Edinburgh EH1 2LE",
+      "city": "Edinburgh",
+      "openingHours": "Mo-Su 10:00-18:30",
+      "source": "seed"
+    },
+    {
+      "id": "seed-ed-3",
+      "name": "Golden Hare Books",
+      "category": "bookshop",
+      "lat": 55.9583,
+      "lng": -3.2089,
+      "address": "68 St Stephen Street, Stockbridge, Edinburgh EH3 5AL",
+      "city": "Edinburgh",
+      "openingHours": "Mo-Su 10:00-17:30",
+      "source": "seed"
+    },
+    {
+      "id": "seed-ed-4",
+      "name": "Portobello Bookshop",
+      "category": "bookshop",
+      "lat": 55.9532,
+      "lng": -3.1125,
+      "address": "46 High Street, Portobello, Edinburgh EH15 1DA",
+      "city": "Edinburgh",
+      "source": "seed"
+    },
+    {
+      "id": "seed-ed-5",
+      "name": "Oxfam Bookshop Stockbridge",
+      "category": "charity",
+      "lat": 55.9578,
+      "lng": -3.2080,
+      "address": "66 Raeburn Place, Stockbridge, Edinburgh EH4 1HJ",
+      "city": "Edinburgh",
+      "source": "seed"
+    },
+    {
+      "id": "seed-ed-6",
+      "name": "Shelter Boutique Stockbridge",
+      "category": "charity",
+      "lat": 55.9585,
+      "lng": -3.2097,
+      "address": "104 Raeburn Place, Stockbridge, Edinburgh EH4 1HH",
+      "city": "Edinburgh",
+      "source": "seed"
+    },
+    {
+      "id": "seed-ed-7",
+      "name": "Bethany Christian Trust Shop",
+      "category": "charity",
+      "lat": 55.9577,
+      "lng": -3.2088,
+      "address": "38 Raeburn Place, Stockbridge, Edinburgh EH4 1HN",
+      "city": "Edinburgh",
+      "source": "seed"
+    },
+    {
+      "id": "seed-ed-8",
+      "name": "Cancer Research UK Morningside",
+      "category": "charity",
+      "lat": 55.9293,
+      "lng": -3.2096,
+      "address": "195 Morningside Road, Edinburgh EH10 4QP",
+      "city": "Edinburgh",
+      "source": "seed"
+    },
+    {
+      "id": "seed-ed-9",
+      "name": "St Columba's Hospice Shop",
+      "category": "charity",
+      "lat": 55.9281,
+      "lng": -3.2094,
+      "address": "224 Morningside Road, Edinburgh EH10 4QQ",
+      "city": "Edinburgh",
+      "source": "seed"
+    },
+    {
+      "id": "seed-ed-10",
+      "name": "The Milkman",
+      "category": "cafe",
+      "lat": 55.9506,
+      "lng": -3.1904,
+      "address": "7 Cockburn Street, Edinburgh EH1 1BP",
+      "city": "Edinburgh",
+      "openingHours": "Mo-Su 08:00-17:30",
+      "source": "seed"
+    },
+    {
+      "id": "seed-ed-11",
+      "name": "Cairngorm Coffee",
+      "category": "cafe",
+      "lat": 55.9519,
+      "lng": -3.2007,
+      "address": "41A Frederick Street, Edinburgh EH2 1EP",
+      "city": "Edinburgh",
+      "source": "seed"
+    },
+    {
+      "id": "seed-ed-12",
+      "name": "Söderberg Stockbridge",
+      "category": "cafe",
+      "lat": 55.9584,
+      "lng": -3.2093,
+      "address": "3 Deanhaugh Street, Stockbridge, Edinburgh EH4 1LU",
+      "city": "Edinburgh",
+      "source": "seed"
+    },
+    {
+      "id": "seed-ed-13",
+      "name": "Lowdown Coffee",
+      "category": "cafe",
+      "lat": 55.9531,
+      "lng": -3.1991,
+      "address": "40 George Street, Edinburgh EH2 2LE",
+      "city": "Edinburgh",
+      "source": "seed"
+    },
+    {
+      "id": "seed-ed-14",
+      "name": "Those Were The Days Vintage & Antiques",
+      "category": "antiques",
+      "lat": 55.9580,
+      "lng": -3.2072,
+      "address": "28 St Stephen Street, Stockbridge, Edinburgh EH3 5AL",
+      "city": "Edinburgh",
+      "source": "seed"
+    },
+    {
+      "id": "seed-ed-15",
+      "name": "Georgian Antiques",
+      "category": "antiques",
+      "lat": 55.9744,
+      "lng": -3.1656,
+      "address": "10 Pattison Street, Leith, Edinburgh EH6 7HF",
+      "city": "Edinburgh",
+      "source": "seed"
+    },
+    {
+      "id": "seed-ed-16",
+      "name": "Edinburgh Antiques Centre",
+      "category": "antiques",
+      "lat": 55.9562,
+      "lng": -3.2022,
+      "address": "13A Dundas Street, Edinburgh EH3 6QG",
+      "city": "Edinburgh",
+      "source": "seed"
+    },
+    {
+      "id": "seed-gl-1",
+      "name": "Voltaire & Rousseau Bookshop",
+      "category": "bookshop",
+      "lat": 55.8758,
+      "lng": -4.2932,
+      "address": "12-14 Otago Lane, Glasgow G12 8PB",
+      "city": "Glasgow",
+      "source": "seed"
+    },
+    {
+      "id": "seed-gl-2",
+      "name": "Caledonia Books",
+      "category": "bookshop",
+      "lat": 55.8752,
+      "lng": -4.2837,
+      "address": "483 Great Western Road, Glasgow G12 8HL",
+      "city": "Glasgow",
+      "source": "seed"
+    },
+    {
+      "id": "seed-gl-3",
+      "name": "Oxfam Music & Books Byres Road",
+      "category": "charity",
+      "lat": 55.8763,
+      "lng": -4.2938,
+      "address": "171 Byres Road, Glasgow G12 8TS",
+      "city": "Glasgow",
+      "source": "seed"
+    },
+    {
+      "id": "seed-gl-4",
+      "name": "British Heart Foundation West End",
+      "category": "charity",
+      "lat": 55.8726,
+      "lng": -4.2967,
+      "address": "320 Dumbarton Road, Glasgow G11 6TG",
+      "city": "Glasgow",
+      "source": "seed"
+    },
+    {
+      "id": "seed-gl-5",
+      "name": "Papercup Coffee Company",
+      "category": "cafe",
+      "lat": 55.8759,
+      "lng": -4.2874,
+      "address": "603 Great Western Road, Glasgow G12 8HX",
+      "city": "Glasgow",
+      "source": "seed"
+    },
+    {
+      "id": "seed-gl-6",
+      "name": "Ottoman Coffeehouse",
+      "category": "cafe",
+      "lat": 55.8647,
+      "lng": -4.2747,
+      "address": "73 Berkeley Street, Glasgow G3 7DX",
+      "city": "Glasgow",
+      "source": "seed"
+    },
+    {
+      "id": "seed-gl-7",
+      "name": "Relics Antiques & Vintage",
+      "category": "antiques",
+      "lat": 55.8772,
+      "lng": -4.2943,
+      "address": "Ruthven Mews, 57 Ruthven Lane, Glasgow G12 9BG",
+      "city": "Glasgow",
+      "source": "seed"
+    },
+    {
+      "id": "seed-gl-8",
+      "name": "Glasgow Vintage & Antiques",
+      "category": "antiques",
+      "lat": 55.8554,
+      "lng": -4.2367,
+      "address": "Barras Market, Gallowgate, Glasgow G40 2BA",
+      "city": "Glasgow",
+      "source": "seed"
+    },
+    {
+      "id": "seed-st-1",
+      "name": "Topping & Company St Andrews",
+      "category": "bookshop",
+      "lat": 56.3407,
+      "lng": -2.7945,
+      "address": "7 Greyfriars Garden, St Andrews KY16 9HG",
+      "city": "St Andrews",
+      "source": "seed"
+    },
+    {
+      "id": "seed-st-2",
+      "name": "Northpoint Cafe",
+      "category": "cafe",
+      "lat": 56.3413,
+      "lng": -2.7963,
+      "address": "24 North Street, St Andrews KY16 9PW",
+      "city": "St Andrews",
+      "source": "seed"
+    },
+    {
+      "id": "seed-st-3",
+      "name": "CHSS Charity Shop St Andrews",
+      "category": "charity",
+      "lat": 56.3396,
+      "lng": -2.7955,
+      "address": "134 Market Street, St Andrews KY16 9PD",
+      "city": "St Andrews",
+      "source": "seed"
+    },
+    {
+      "id": "seed-ab-1",
+      "name": "Books and Beans",
+      "category": "cafe",
+      "lat": 57.1476,
+      "lng": -2.0998,
+      "address": "22 Belmont Street, Aberdeen AB10 1JH",
+      "city": "Aberdeen",
+      "source": "seed"
+    },
+    {
+      "id": "seed-ab-2",
+      "name": "Oxfam Bookshop Aberdeen",
+      "category": "charity",
+      "lat": 57.1479,
+      "lng": -2.1038,
+      "address": "24 Back Wynd, Aberdeen AB10 1JP",
+      "city": "Aberdeen",
+      "source": "seed"
+    },
+    {
+      "id": "seed-ab-3",
+      "name": "Thistle Street Antiques",
+      "category": "antiques",
+      "lat": 57.1456,
+      "lng": -2.1095,
+      "address": "48 Thistle Street, Aberdeen AB10 1EN",
+      "city": "Aberdeen",
+      "source": "seed"
+    },
+    {
+      "id": "seed-du-1",
+      "name": "The Book House Broughty Ferry",
+      "category": "bookshop",
+      "lat": 56.4675,
+      "lng": -2.8758,
+      "address": "225 Brook Street, Broughty Ferry, Dundee DD5 2AG",
+      "city": "Dundee",
+      "source": "seed"
+    },
+    {
+      "id": "seed-du-2",
+      "name": "Henry's Coffee House",
+      "category": "cafe",
+      "lat": 56.4596,
+      "lng": -2.9711,
+      "address": "14 City Square, Dundee DD1 3BG",
+      "city": "Dundee",
+      "source": "seed"
+    },
+    {
+      "id": "seed-in-1",
+      "name": "Leakey's Bookshop",
+      "category": "bookshop",
+      "lat": 57.4792,
+      "lng": -4.2272,
+      "address": "Church Street, Inverness IV1 1EY",
+      "city": "Inverness",
+      "description": "Scotland's largest secondhand bookshop, inside an old Gaelic church with a log fire.",
+      "source": "seed"
+    },
+    {
+      "id": "seed-in-2",
+      "name": "Highland Hospice Shop",
+      "category": "charity",
+      "lat": 57.4777,
+      "lng": -4.2254,
+      "address": "64 Church Street, Inverness IV1 1EN",
+      "city": "Inverness",
+      "source": "seed"
+    },
+    {
+      "id": "seed-in-3",
+      "name": "Velocity Cafe",
+      "category": "cafe",
+      "lat": 57.4754,
+      "lng": -4.2194,
+      "address": "1 Crown Avenue, Inverness IV2 3NF",
+      "city": "Inverness",
+      "source": "seed"
+    },
+    {
+      "id": "seed-pt-1",
+      "name": "Dunkeld Antiques & Curios",
+      "category": "antiques",
+      "lat": 56.5653,
+      "lng": -3.5861,
+      "address": "High Street, Dunkeld PH8 0AJ",
+      "city": "Dunkeld",
+      "source": "seed"
+    }
+  ]
+}

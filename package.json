@@ -1,0 +1,30 @@
+{
+  "name": "thrifting-queen",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Scotland map app for cafes, bookshops, charity shops, and antique shops",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "build:gh-pages": "VITE_BASE_PATH=/thrifting-queen/ tsc --noEmit && VITE_BASE_PATH=/thrifting-queen/ vite build",
+    "build:capacitor": "VITE_BASE_PATH=./ tsc --noEmit && VITE_BASE_PATH=./ vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "data:fetch": "python3 scripts/fetch_scotland_places.py"
+  },
+  "dependencies": {
+    "lucide-react": "^0.468.0",
+    "maplibre-gl": "^5.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.7.2",
+    "vite": "^6.1.0",
+    "vite-plugin-pwa": "^0.21.1"
+  }
+}

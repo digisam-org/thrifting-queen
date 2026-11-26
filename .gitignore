@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dev-dist/
+
+# Local environment
+.env
+.env.local
+
+# OS & editor files
+.DS_Store
+*.log
+
+# Temporary OSM downloads
+scripts/tmp/
+*.osm.pbf
+
+# Future Capacitor native build artifacts
+android/app/build/
+ios/App/build/

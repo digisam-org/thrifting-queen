@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192" fill="none">
+  <rect width="192" height="192" rx="44" fill="#FAF6F0"/>
+  <circle cx="96" cy="96" r="76" fill="#C44569"/>
+  <circle cx="96" cy="96" r="64" fill="#FAF6F0" stroke="#E5B25D" stroke-width="4" stroke-dasharray="8 6"/>
+  <!-- Pin shape -->
+  <path d="M96 42 C72 42 54 60 54 84 C54 114 96 152 96 152 C96 152 138 114 138 84 C138 60 120 42 96 42 Z" fill="#2E6F5E"/>
+  <!-- Crown inside pin -->
+  <path d="M74 92 L78 70 L89 81 L96 66 L103 81 L114 70 L118 92 Z" fill="#E5B25D" stroke="#FAF6F0" stroke-width="2.5" stroke-linejoin="round"/>
+  <rect x="74" y="95" width="44" height="6" rx="3" fill="#E5B25D"/>
+</svg>
