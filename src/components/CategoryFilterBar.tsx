@@ -1,4 +1,4 @@
-import { Heart, Search, X } from 'lucide-react';
+import { Heart, Search, Sparkles, X } from 'lucide-react';
 import { CATEGORY_LIST } from '../data/categories';
 import type { PlaceCategory } from '../types/place';
 
@@ -6,24 +6,28 @@ interface CategoryFilterBarProps {
   activeCategories: Set<PlaceCategory>;
   searchQuery: string;
   favouritesOnly: boolean;
+  indiesOnly: boolean;
   totalVisible: number;
   onToggleCategory: (category: PlaceCategory) => void;
   onSelectAllCategories: () => void;
   onSearchChange: (value: string) => void;
   onToggleFavouritesOnly: () => void;
+  onToggleIndiesOnly: () => void;
 }
 
 export function CategoryFilterBar({
   activeCategories,
   searchQuery,
   favouritesOnly,
+  indiesOnly,
   totalVisible,
   onToggleCategory,
   onSelectAllCategories,
   onSearchChange,
   onToggleFavouritesOnly,
+  onToggleIndiesOnly,
 }: CategoryFilterBarProps) {
-  const allSelected = activeCategories.size === CATEGORY_LIST.length && !favouritesOnly;
+  const allSelected = activeCategories.size === CATEGORY_LIST.length && !favouritesOnly && !indiesOnly;
 
   return (
     <header className="top-overlay">
@@ -33,7 +37,7 @@ export function CategoryFilterBar({
           type="search"
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
-          placeholder="Search cafes, bookshops, towns..."
+          placeholder="Search cafes, bakeries, matcha, shops..."
           className="search-input"
           aria-label="Search places in Scotland"
         />
@@ -83,6 +87,16 @@ export function CategoryFilterBar({
             </button>
           );
         })}
+
+        <button
+          type="button"
+          className={`filter-chip ${indiesOnly ? 'active' : ''}`}
+          onClick={onToggleIndiesOnly}
+          title="Hide big chain cafes like Starbucks, Costa, and Caffè Nero"
+        >
+          <Sparkles size={14} />
+          <span>Indies only</span>
+        </button>
 
         <button
           type="button"

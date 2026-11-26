@@ -1,4 +1,4 @@
-export type PlaceCategory = 'cafe' | 'bookshop' | 'charity' | 'antiques';
+export type PlaceCategory = 'cafe' | 'bakery' | 'matcha' | 'bookshop' | 'charity' | 'antiques';
 
 export interface Place {
   id: string;
@@ -12,6 +12,7 @@ export interface Place {
   website?: string;
   phone?: string;
   description?: string;
+  isChain?: boolean;
   personalNote?: string;
   isPersonalPick?: boolean;
   source: 'osm' | 'seed' | 'personal';

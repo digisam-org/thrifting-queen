@@ -33,12 +33,14 @@ export function App() {
   );
   const [searchQuery, setSearchQuery] = useState('');
   const [favouritesOnly, setFavouritesOnly] = useState(false);
+  const [indiesOnly, setIndiesOnly] = useState(false);
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
   const [nearbyOpen, setNearbyOpen] = useState(false);
 
   const visiblePlaces = useMemo(
-    () => filterPlaces(places, activeCategories, searchQuery, favouritesOnly, favouriteIds),
-    [places, activeCategories, searchQuery, favouritesOnly, favouriteIds],
+    () =>
+      filterPlaces(places, activeCategories, searchQuery, favouritesOnly, favouriteIds, indiesOnly),
+    [places, activeCategories, searchQuery, favouritesOnly, favouriteIds, indiesOnly],
   );
 
   const rankedNearby = useMemo<RankedPlace[]>(() => {
@@ -71,6 +73,7 @@ export function App() {
   const handleSelectAllCategories = () => {
     setActiveCategories(new Set(ALL_CATEGORIES));
     setFavouritesOnly(false);
+    setIndiesOnly(false);
   };
 
   const handleLocateMe = async () => {
@@ -109,11 +112,13 @@ export function App() {
         activeCategories={activeCategories}
         searchQuery={searchQuery}
         favouritesOnly={favouritesOnly}
+        indiesOnly={indiesOnly}
         totalVisible={visiblePlaces.length}
         onToggleCategory={handleToggleCategory}
         onSelectAllCategories={handleSelectAllCategories}
         onSearchChange={setSearchQuery}
         onToggleFavouritesOnly={() => setFavouritesOnly((v) => !v)}
+        onToggleIndiesOnly={() => setIndiesOnly((v) => !v)}
       />
 
       {placesError && <div className="error-toast">{placesError}</div>}

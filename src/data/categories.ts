@@ -18,6 +18,22 @@ export const CATEGORIES: Record<PlaceCategory, CategoryMeta> = {
     softBg: '#F9EFE4',
     emoji: '☕',
   },
+  bakery: {
+    id: 'bakery',
+    label: 'Bakery',
+    pluralLabel: 'Bakeries',
+    color: '#B85D3B',
+    softBg: '#FAECE6',
+    emoji: '🥐',
+  },
+  matcha: {
+    id: 'matcha',
+    label: 'Matcha Spot',
+    pluralLabel: 'Matcha',
+    color: '#5B8C3E',
+    softBg: '#EBF4E5',
+    emoji: '🍵',
+  },
   bookshop: {
     id: 'bookshop',
     label: 'Bookshop',
@@ -46,6 +62,8 @@ export const CATEGORIES: Record<PlaceCategory, CategoryMeta> = {
 
 export const CATEGORY_LIST: CategoryMeta[] = [
   CATEGORIES.cafe,
+  CATEGORIES.bakery,
+  CATEGORIES.matcha,
   CATEGORIES.bookshop,
   CATEGORIES.charity,
   CATEGORIES.antiques,

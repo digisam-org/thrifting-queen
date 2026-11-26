@@ -102,12 +102,14 @@ export function filterPlaces(
   searchQuery: string,
   favouritesOnly: boolean,
   favouriteIds: Set<string>,
+  indiesOnly: boolean,
 ): Place[] {
   const q = searchQuery.trim().toLowerCase();
 
   return places.filter((place) => {
     if (!activeCategories.has(place.category)) return false;
     if (favouritesOnly && !favouriteIds.has(place.id)) return false;
+    if (indiesOnly && place.isChain) return false;
     if (!q) return true;
 
     return (
