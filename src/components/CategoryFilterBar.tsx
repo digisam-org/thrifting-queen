@@ -64,67 +64,69 @@ export function CategoryFilterBar({
         )}
       </div>
 
-      <nav className="vertical-filter-rail" aria-label="Category filters">
-        <button
-          type="button"
-          className={`filter-chip ${allSelected ? 'active' : ''}`}
-          onClick={onSelectAllCategories}
-        >
-          <span>All</span>
-        </button>
+      <div className="filter-rails">
+        <nav className="vertical-filter-rail" aria-label="Category filters">
+          <button
+            type="button"
+            className={`filter-chip ${allSelected ? 'active' : ''}`}
+            onClick={onSelectAllCategories}
+          >
+            <span>All</span>
+          </button>
 
-        {CATEGORY_LIST.map((cat) => {
-          const isActive = activeCategories.has(cat.id);
-          return (
-            <button
-              key={cat.id}
-              type="button"
-              className={`filter-chip ${isActive ? 'active' : ''}`}
-              style={
-                isActive
-                  ? {
-                      background: `linear-gradient(135deg, ${cat.color}, ${cat.colorDark})`,
-                      borderColor: cat.colorDark,
-                      color: '#FFFDF9',
-                      boxShadow: `0 4px 12px ${cat.tintBorder}`,
-                    }
-                  : undefined
-              }
-              onClick={() => onToggleCategory(cat.id)}
-            >
-              <span
-                className="chip-emoji-dot"
-                style={!isActive ? { backgroundColor: cat.softBg } : undefined}
-                aria-hidden="true"
+          {CATEGORY_LIST.map((cat) => {
+            const isActive = activeCategories.has(cat.id);
+            return (
+              <button
+                key={cat.id}
+                type="button"
+                className={`filter-chip ${isActive ? 'active' : ''}`}
+                style={
+                  isActive
+                    ? {
+                        background: `linear-gradient(135deg, ${cat.color}, ${cat.colorDark})`,
+                        borderColor: cat.colorDark,
+                        color: '#FFFDF9',
+                        boxShadow: `0 4px 12px ${cat.tintBorder}`,
+                      }
+                    : undefined
+                }
+                onClick={() => onToggleCategory(cat.id)}
               >
-                {cat.emoji}
-              </span>
-              <span>{SHORT_LABELS[cat.id]}</span>
-            </button>
-          );
-        })}
+                <span
+                  className="chip-emoji-dot"
+                  style={!isActive ? { backgroundColor: cat.softBg } : undefined}
+                  aria-hidden="true"
+                >
+                  {cat.emoji}
+                </span>
+                <span>{SHORT_LABELS[cat.id]}</span>
+              </button>
+            );
+          })}
+        </nav>
 
-        <div className="rail-divider" aria-hidden="true" />
+        <div className="vertical-filter-rail align-right" role="group" aria-label="Quick filters">
+          <button
+            type="button"
+            className={`filter-chip ${indiesOnly ? 'active' : ''}`}
+            onClick={onToggleIndiesOnly}
+            title="Hide big chain cafes and bakeries"
+          >
+            <Sparkles size={13} />
+            <span>Indies</span>
+          </button>
 
-        <button
-          type="button"
-          className={`filter-chip ${indiesOnly ? 'active' : ''}`}
-          onClick={onToggleIndiesOnly}
-          title="Hide big chain cafes and bakeries"
-        >
-          <Sparkles size={13} />
-          <span>Indies</span>
-        </button>
-
-        <button
-          type="button"
-          className={`filter-chip ${favouritesOnly ? 'active-fav' : ''}`}
-          onClick={onToggleFavouritesOnly}
-        >
-          <Heart size={13} fill={favouritesOnly ? 'currentColor' : 'none'} />
-          <span>Saved</span>
-        </button>
-      </nav>
+          <button
+            type="button"
+            className={`filter-chip ${favouritesOnly ? 'active-fav' : ''}`}
+            onClick={onToggleFavouritesOnly}
+          >
+            <Heart size={13} fill={favouritesOnly ? 'currentColor' : 'none'} />
+            <span>Saved</span>
+          </button>
+        </div>
+      </div>
     </header>
   );
 }
