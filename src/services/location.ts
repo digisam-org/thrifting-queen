@@ -103,3 +103,9 @@ export function buildDirectionsUrl(lat: number, lng: number, label: string): str
   }
   return `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=walking`;
 }
+
+/** Opens the place's Google Maps listing (live star rating, photos & reviews) in one tap. */
+export function buildGoogleReviewsUrl(name: string, address?: string, city?: string): string {
+  const queryParts = [name, address || city || 'Scotland'].filter(Boolean);
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(queryParts.join(', '))}`;
+}

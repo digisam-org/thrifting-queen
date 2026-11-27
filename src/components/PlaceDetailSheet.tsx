@@ -1,7 +1,17 @@
 import type { CSSProperties } from 'react';
-import { CheckCircle2, Clock, ExternalLink, Heart, MapPin, Navigation, Sparkles, X } from 'lucide-react';
+import {
+  CheckCircle2,
+  Clock,
+  ExternalLink,
+  Heart,
+  MapPin,
+  Navigation,
+  Sparkles,
+  Star,
+  X,
+} from 'lucide-react';
 import { CATEGORIES } from '../data/categories';
-import { buildDirectionsUrl } from '../services/location';
+import { buildDirectionsUrl, buildGoogleReviewsUrl } from '../services/location';
 import { distanceMeters, formatDistance } from '../services/placesRepository';
 import type { Coordinates, Place, UserPlaceRecord } from '../types/place';
 
@@ -29,6 +39,7 @@ export function PlaceDetailSheet({
   const meta = CATEGORIES[place.category];
   const dist = userCoords ? formatDistance(distanceMeters(userCoords, place)) : null;
   const directionsUrl = buildDirectionsUrl(place.lat, place.lng, place.name);
+  const reviewsUrl = buildGoogleReviewsUrl(place.name, place.address, place.city);
 
   const sheetTheme = {
     '--cat-color': meta.color,
@@ -97,6 +108,16 @@ export function PlaceDetailSheet({
           >
             <Navigation size={15} />
             <span>Directions</span>
+          </a>
+
+          <a
+            href={reviewsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="action-btn"
+          >
+            <Star size={15} />
+            <span>Reviews</span>
           </a>
 
           <button
