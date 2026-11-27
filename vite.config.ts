@@ -12,8 +12,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: [
         'icons/angi-avatar.png',
-        'icons/icon-192.svg',
-        'icons/icon-512.svg',
+        'icons/apple-touch-icon.png',
+        'icons/icon-192.png',
+        'icons/icon-512.png',
         'data/scotland-places.json',
         'data/personal-picks.json',
       ],
@@ -21,7 +22,7 @@ export default defineConfig({
         name: 'Thrifting Queen',
         short_name: 'Thrifting Queen',
         description:
-          'Discover Scotland’s best cafes, bookshops, charity shops, and antique shops around you.',
+          'Discover Scotland’s best cafes, bakeries, matcha spots, bookshops, charity shops, and antique shops around you.',
         theme_color: '#FAF6F0',
         background_color: '#FAF6F0',
         display: 'standalone',
@@ -30,15 +31,15 @@ export default defineConfig({
         start_url: basePath,
         icons: [
           {
-            src: 'icons/icon-192.svg',
+            src: 'icons/icon-192.png',
             sizes: '192x192',
-            type: 'image/svg+xml',
+            type: 'image/png',
             purpose: 'any',
           },
           {
-            src: 'icons/icon-512.svg',
+            src: 'icons/icon-512.png',
             sizes: '512x512',
-            type: 'image/svg+xml',
+            type: 'image/png',
             purpose: 'any maskable',
           },
         ],
