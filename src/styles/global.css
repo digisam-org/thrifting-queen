@@ -313,66 +313,70 @@ body,
   cursor: pointer;
 }
 
-.chips-row {
-  pointer-events: auto;
+.vertical-filter-rail {
+  pointer-events: none;
   display: flex;
-  gap: 7px;
-  overflow-x: auto;
-  padding-bottom: 4px;
-  scrollbar-width: none;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 2px;
 }
 
-.chips-row::-webkit-scrollbar {
-  display: none;
+.rail-divider {
+  width: 28px;
+  height: 1px;
+  margin: 2px 0 2px 10px;
+  background: rgba(35, 28, 24, 0.16);
 }
 
 .filter-chip {
+  pointer-events: auto;
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px 6px 8px;
+  padding: 5px 11px 5px 7px;
   border-radius: 999px;
   border: 1px solid rgba(35, 28, 24, 0.08);
-  background: rgba(255, 253, 249, 0.9);
+  background: rgba(255, 253, 249, 0.92);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   color: var(--ink);
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: -0.01em;
-  box-shadow: 0 3px 10px rgba(35, 28, 24, 0.08);
+  box-shadow: 0 3px 10px rgba(35, 28, 24, 0.09);
   cursor: pointer;
   transition: transform 0.12s ease, background-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .chip-emoji-dot {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font-size: 13px;
+  font-size: 12px;
   background: rgba(255, 255, 255, 0.22);
 }
 
 .filter-chip:active {
-  transform: scale(0.96);
+  transform: scale(0.95);
 }
 
 .filter-chip.active {
   background: linear-gradient(135deg, #2d2520, #1c1613);
   border-color: #1c1613;
   color: var(--bg-cream);
-  padding-left: 12px;
+  padding-left: 11px;
 }
 
 .filter-chip.active-fav {
   background: linear-gradient(135deg, #c8466b, #a13152);
   border-color: #a13152;
   color: var(--bg-cream);
-  padding-left: 12px;
+  padding-left: 11px;
 }
 
 /* Status Banner */
@@ -500,6 +504,8 @@ body,
 .sheet-banner {
   position: relative;
   padding: 10px 18px 16px;
+  touch-action: none;
+  cursor: grab;
   background-color: var(--cat-soft, var(--bg-cream));
   background-image:
     repeating-linear-gradient(

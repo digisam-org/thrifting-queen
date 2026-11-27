@@ -256,9 +256,13 @@ export const MapView = forwardRef<MapViewHandle, MapViewProps>(function MapView(
   const avatarMarkerRef = useRef<maplibregl.Marker | null>(null);
   const hasCenteredInitiallyRef = useRef(false);
   const placesByIdRef = useRef<Map<string, Place>>(new Map());
+  const latestPlacesRef = useRef<Place[]>(places);
+  const latestVisitedIdsRef = useRef<Set<string>>(visitedIds);
   const onSelectPlaceRef = useRef(onSelectPlace);
   const onClearSelectionRef = useRef(onClearSelection);
 
+  latestPlacesRef.current = places;
+  latestVisitedIdsRef.current = visitedIds;
   onSelectPlaceRef.current = onSelectPlace;
   onClearSelectionRef.current = onClearSelection;
 
@@ -299,7 +303,7 @@ export const MapView = forwardRef<MapViewHandle, MapViewProps>(function MapView(
 
       map.addSource(SOURCE_ID, {
         type: 'geojson',
-        data: placesToGeoJSON(places, visitedIds),
+        data: placesToGeoJSON(latestPlacesRef.current, latestVisitedIdsRef.current),
         cluster: true,
         clusterMaxZoom: 13,
         clusterRadius: 46,

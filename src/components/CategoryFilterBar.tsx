@@ -2,6 +2,15 @@ import { Heart, Search, Sparkles, X } from 'lucide-react';
 import { CATEGORY_LIST } from '../data/categories';
 import type { PlaceCategory } from '../types/place';
 
+const SHORT_LABELS: Record<PlaceCategory, string> = {
+  cafe: 'Cafes',
+  bakery: 'Bakeries',
+  matcha: 'Matcha',
+  bookshop: 'Books',
+  charity: 'Charity',
+  antiques: 'Antiques',
+};
+
 interface CategoryFilterBarProps {
   activeCategories: Set<PlaceCategory>;
   searchQuery: string;
@@ -55,13 +64,13 @@ export function CategoryFilterBar({
         )}
       </div>
 
-      <div className="chips-row" role="group" aria-label="Category filters">
+      <nav className="vertical-filter-rail" aria-label="Category filters">
         <button
           type="button"
           className={`filter-chip ${allSelected ? 'active' : ''}`}
           onClick={onSelectAllCategories}
         >
-          All
+          <span>All</span>
         </button>
 
         {CATEGORY_LIST.map((cat) => {
@@ -90,19 +99,21 @@ export function CategoryFilterBar({
               >
                 {cat.emoji}
               </span>
-              <span>{cat.pluralLabel}</span>
+              <span>{SHORT_LABELS[cat.id]}</span>
             </button>
           );
         })}
+
+        <div className="rail-divider" aria-hidden="true" />
 
         <button
           type="button"
           className={`filter-chip ${indiesOnly ? 'active' : ''}`}
           onClick={onToggleIndiesOnly}
-          title="Hide big chain cafes like Starbucks, Costa, and Caffè Nero"
+          title="Hide big chain cafes and bakeries"
         >
-          <Sparkles size={14} />
-          <span>Indies only</span>
+          <Sparkles size={13} />
+          <span>Indies</span>
         </button>
 
         <button
@@ -110,10 +121,10 @@ export function CategoryFilterBar({
           className={`filter-chip ${favouritesOnly ? 'active-fav' : ''}`}
           onClick={onToggleFavouritesOnly}
         >
-          <Heart size={14} fill={favouritesOnly ? 'currentColor' : 'none'} />
+          <Heart size={13} fill={favouritesOnly ? 'currentColor' : 'none'} />
           <span>Saved</span>
         </button>
-      </div>
+      </nav>
     </header>
   );
 }

@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import { useRef, useState, type CSSProperties, type TouchEvent } from 'react';
 import {
   CheckCircle2,
   Clock,
@@ -34,6 +34,11 @@ export function PlaceDetailSheet({
   onToggleVisited,
   onNoteChange,
 }: PlaceDetailSheetProps) {
+  const [dragY, setDragY] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const touchStartYRef = useRef<number | null>(null);
+  const touchStartTimeRef = useRef<number>(0);
+
   if (!place) return null;
 
   const meta = CATEGORIES[place.category];
@@ -41,16 +46,57 @@ export function PlaceDetailSheet({
   const directionsUrl = buildDirectionsUrl(place.lat, place.lng, place.name);
   const reviewsUrl = buildGoogleReviewsUrl(place.name, place.address, place.city);
 
+  const handleTouchStart = (e: TouchEvent) => {
+    if (e.touches.length !== 1) return;
+    touchStartYRef.current = e.touches[0].clientY;
+    touchStartTimeRef.current = Date.now();
+    setIsDragging(true);
+  };
+
+  const handleTouchMove = (e: TouchEvent) => {
+    if (touchStartYRef.current === null || e.touches.length !== 1) return;
+    const deltaY = e.touches[0].clientY - touchStartYRef.current;
+    if (deltaY > 0) {
+      setDragY(deltaY);
+    } else {
+      setDragY(0);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartYRef.current === null) return;
+    const elapsedMs = Math.max(1, Date.now() - touchStartTimeRef.current);
+    const velocity = dragY / elapsedMs; // px per ms
+
+    touchStartYRef.current = null;
+    setIsDragging(false);
+
+    if (dragY > 75 || (dragY > 30 && velocity > 0.45)) {
+      setDragY(0);
+      onClose();
+    } else {
+      setDragY(0);
+    }
+  };
+
   const sheetTheme = {
     '--cat-color': meta.color,
     '--cat-dark': meta.colorDark,
     '--cat-soft': meta.softBg,
     '--cat-border': meta.tintBorder,
+    transform: dragY > 0 ? `translateY(${dragY}px)` : undefined,
+    transition: isDragging ? 'none' : 'transform 0.22s cubic-bezier(0.22, 1, 0.36, 1)',
   } as CSSProperties;
 
   return (
     <section className="bottom-sheet" style={sheetTheme} aria-label={place.name}>
-      <div className="sheet-banner">
+      <div
+        className="sheet-banner"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onTouchCancel={handleTouchEnd}
+      >
         <div className="sheet-handle" />
 
         <div className="sheet-header">
