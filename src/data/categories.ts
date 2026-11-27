@@ -5,7 +5,9 @@ export interface CategoryMeta {
   label: string;
   pluralLabel: string;
   color: string;
+  colorDark: string;
   softBg: string;
+  tintBorder: string;
   emoji: string;
 }
 
@@ -14,48 +16,60 @@ export const CATEGORIES: Record<PlaceCategory, CategoryMeta> = {
     id: 'cafe',
     label: 'Cafe',
     pluralLabel: 'Cafes',
-    color: '#C67D3B',
-    softBg: '#F9EFE4',
+    color: '#A85A32',
+    colorDark: '#874321',
+    softBg: '#FBF2EB',
+    tintBorder: 'rgba(168, 90, 50, 0.22)',
     emoji: '☕',
   },
   bakery: {
     id: 'bakery',
     label: 'Bakery',
     pluralLabel: 'Bakeries',
-    color: '#B85D3B',
-    softBg: '#FAECE6',
+    color: '#D4882A',
+    colorDark: '#B36C18',
+    softBg: '#FDF5E6',
+    tintBorder: 'rgba(212, 136, 42, 0.24)',
     emoji: '🥐',
   },
   matcha: {
     id: 'matcha',
     label: 'Matcha Spot',
     pluralLabel: 'Matcha',
-    color: '#5B8C3E',
-    softBg: '#EBF4E5',
+    color: '#4F8A47',
+    colorDark: '#3A6B34',
+    softBg: '#EDF6EB',
+    tintBorder: 'rgba(79, 138, 71, 0.24)',
     emoji: '🍵',
   },
   bookshop: {
     id: 'bookshop',
     label: 'Bookshop',
     pluralLabel: 'Bookshops',
-    color: '#2E6F5E',
-    softBg: '#E6F2EE',
+    color: '#1F6B6B',
+    colorDark: '#155050',
+    softBg: '#E7F4F4',
+    tintBorder: 'rgba(31, 107, 107, 0.22)',
     emoji: '📚',
   },
   charity: {
     id: 'charity',
     label: 'Charity Shop',
     pluralLabel: 'Charity Shops',
-    color: '#C44569',
-    softBg: '#FBEAF0',
+    color: '#C8466B',
+    colorDark: '#A13152',
+    softBg: '#FCEEF2',
+    tintBorder: 'rgba(200, 70, 107, 0.22)',
     emoji: '🛍️',
   },
   antiques: {
     id: 'antiques',
     label: 'Antique Shop',
     pluralLabel: 'Antiques',
-    color: '#7B4B94',
-    softBg: '#F2EBF7',
+    color: '#784898',
+    colorDark: '#5B3277',
+    softBg: '#F4EEFA',
+    tintBorder: 'rgba(120, 72, 152, 0.22)',
     emoji: '🏺',
   },
 };

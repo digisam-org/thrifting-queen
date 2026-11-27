@@ -41,14 +41,12 @@ function buildAvatarElement(isDemoMode: boolean): HTMLDivElement {
   const root = document.createElement('div');
   root.className = 'avatar-marker';
   root.setAttribute('aria-label', 'Your location');
-  root.setAttribute('role', 'button');
-  root.setAttribute('tabindex', '0');
 
   root.innerHTML = `
     <div class="avatar-bubble" aria-live="polite"></div>
     <span class="avatar-sparkle sparkle-1" aria-hidden="true">✦</span>
     <span class="avatar-sparkle sparkle-2" aria-hidden="true">✦</span>
-    <div class="avatar-frame">
+    <div class="avatar-frame" role="button" tabindex="0" aria-label="Tap Angi">
       <img src="${avatarSrc}" alt="Angi" class="avatar-img" />
     </div>
     <div class="avatar-pulse"></div>
@@ -78,10 +76,12 @@ function buildAvatarElement(isDemoMode: boolean): HTMLDivElement {
     }
   };
 
-  root.addEventListener('click', triggerJoy);
-  root.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') triggerJoy(e);
-  });
+  if (frame) {
+    frame.addEventListener('click', triggerJoy);
+    frame.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') triggerJoy(e);
+    });
+  }
 
   return root;
 }
@@ -108,83 +108,107 @@ function declutterBaseMap(map: maplibregl.Map): void {
 
 function createEmojiPinImage(
   emoji: string,
-  borderColor: string,
-  bgColor: string,
+  color: string,
+  colorDark: string,
   visited: boolean,
 ): ImageData {
-  const size = 68; // Rendered at 2x pixelRatio -> 34px logical badge
+  const width = 76; // Rendered at 2x pixelRatio -> 38x44px sleek teardrop pin
+  const height = 88;
   const canvas = document.createElement('canvas');
-  canvas.width = size;
-  canvas.height = size;
+  canvas.width = width;
+  canvas.height = height;
   const ctx = canvas.getContext('2d');
   if (!ctx) {
-    return new ImageData(size, size);
+    return new ImageData(width, height);
   }
 
-  const cx = size / 2;
-  const cy = size / 2;
-  const r = 24;
+  const cx = width / 2;
+  const cy = 34;
+  const outerR = 26;
+  const tipY = 78;
 
-  // Soft drop shadow + warm badge fill
+  // Sleek teardrop map pin silhouette with subtle category gradient + soft drop shadow
   ctx.save();
-  ctx.shadowColor = 'rgba(36, 30, 26, 0.28)';
-  ctx.shadowBlur = 7;
-  ctx.shadowOffsetY = 3;
+  ctx.shadowColor = 'rgba(28, 22, 19, 0.26)';
+  ctx.shadowBlur = 9;
+  ctx.shadowOffsetY = 4;
+
+  const grad = ctx.createLinearGradient(cx, cy - outerR, cx, tipY);
+  if (visited) {
+    grad.addColorStop(0, '#E7B95A');
+    grad.addColorStop(1, '#C5912E');
+  } else {
+    grad.addColorStop(0, color);
+    grad.addColorStop(1, colorDark);
+  }
+
   ctx.beginPath();
-  ctx.arc(cx, cy, r, 0, Math.PI * 2);
-  ctx.fillStyle = bgColor;
+  ctx.arc(cx, cy, outerR, Math.PI * 0.2, Math.PI * 0.8, true);
+  ctx.quadraticCurveTo(cx - outerR * 0.65, cy + outerR * 1.15, cx, tipY);
+  ctx.quadraticCurveTo(cx + outerR * 0.65, cy + outerR * 1.15, cx + outerR * Math.cos(Math.PI * 0.2), cy + outerR * Math.sin(Math.PI * 0.2));
+  ctx.closePath();
+  ctx.fillStyle = grad;
   ctx.fill();
   ctx.restore();
 
-  // Category-colored ring (golden ring when visited)
+  // Thin luminous outer rim for crisp separation over any map tile
   ctx.beginPath();
-  ctx.arc(cx, cy, r, 0, Math.PI * 2);
-  ctx.lineWidth = visited ? 5 : 4.5;
-  ctx.strokeStyle = visited ? '#E5B25D' : borderColor;
+  ctx.arc(cx, cy, outerR, Math.PI * 0.2, Math.PI * 0.8, true);
+  ctx.quadraticCurveTo(cx - outerR * 0.65, cy + outerR * 1.15, cx, tipY);
+  ctx.quadraticCurveTo(cx + outerR * 0.65, cy + outerR * 1.15, cx + outerR * Math.cos(Math.PI * 0.2), cy + outerR * Math.sin(Math.PI * 0.2));
+  ctx.closePath();
+  ctx.lineWidth = 2.2;
+  ctx.strokeStyle = 'rgba(255, 253, 249, 0.92)';
   ctx.stroke();
 
-  // Native color emoji centered inside badge
-  ctx.font = '27px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
+  // Crisp pure white inner medallion so the color emoji pops cleanly
+  ctx.beginPath();
+  ctx.arc(cx, cy, 19.5, 0, Math.PI * 2);
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fill();
+
+  // Native color emoji centered inside medallion
+  ctx.font = '24px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText(emoji, cx, cy + 2);
+  ctx.fillText(emoji, cx, cy + 1.5);
 
-  // Small checkmark badge in top-right when visited
+  // Small emerald checkmark badge in top-right when visited
   if (visited) {
     ctx.beginPath();
-    ctx.arc(cx + 17, cy - 17, 9, 0, Math.PI * 2);
-    ctx.fillStyle = '#2E6F5E';
+    ctx.arc(cx + 19, cy - 18, 9.5, 0, Math.PI * 2);
+    ctx.fillStyle = '#1F6B6B';
     ctx.fill();
-    ctx.lineWidth = 2.5;
-    ctx.strokeStyle = '#FAF6F0';
+    ctx.lineWidth = 2.4;
+    ctx.strokeStyle = '#FFFFFF';
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.moveTo(cx + 13, cy - 17);
-    ctx.lineTo(cx + 16, cy - 14);
-    ctx.lineTo(cx + 21, cy - 20);
-    ctx.lineWidth = 2.5;
+    ctx.moveTo(cx + 15, cy - 18);
+    ctx.lineTo(cx + 18, cy - 15);
+    ctx.lineTo(cx + 23, cy - 21);
+    ctx.lineWidth = 2.4;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-    ctx.strokeStyle = '#FAF6F0';
+    ctx.strokeStyle = '#FFFFFF';
     ctx.stroke();
   }
 
-  return ctx.getImageData(0, 0, size, size);
+  return ctx.getImageData(0, 0, width, height);
 }
 
 function registerEmojiPinSprites(map: maplibregl.Map): void {
   for (const cat of CATEGORY_LIST) {
     const normalId = `pin-${cat.id}`;
     if (!map.hasImage(normalId)) {
-      map.addImage(normalId, createEmojiPinImage(cat.emoji, cat.color, '#FFFDF9', false), {
+      map.addImage(normalId, createEmojiPinImage(cat.emoji, cat.color, cat.colorDark, false), {
         pixelRatio: 2,
       });
     }
 
     const visitedId = `pin-${cat.id}-visited`;
     if (!map.hasImage(visitedId)) {
-      map.addImage(visitedId, createEmojiPinImage(cat.emoji, cat.color, cat.softBg, true), {
+      map.addImage(visitedId, createEmojiPinImage(cat.emoji, cat.color, cat.colorDark, true), {
         pixelRatio: 2,
       });
     }
@@ -314,10 +338,10 @@ export const MapView = forwardRef<MapViewHandle, MapViewProps>(function MapView(
         source: SOURCE_ID,
         filter: ['==', ['get', 'id'], ''],
         paint: {
-          'circle-radius': 23,
-          'circle-color': 'rgba(196, 69, 105, 0.22)',
+          'circle-radius': 18,
+          'circle-color': 'rgba(200, 70, 107, 0.22)',
           'circle-stroke-width': 2.5,
-          'circle-stroke-color': '#C44569',
+          'circle-stroke-color': '#C8466B',
         },
       });
 
@@ -328,7 +352,8 @@ export const MapView = forwardRef<MapViewHandle, MapViewProps>(function MapView(
         filter: ['!', ['has', 'point_count']],
         layout: {
           'icon-image': ['get', 'icon'],
-          'icon-size': ['interpolate', ['linear'], ['zoom'], 9, 0.72, 13, 0.92, 16, 1.08],
+          'icon-anchor': 'bottom',
+          'icon-size': ['interpolate', ['linear'], ['zoom'], 9, 0.68, 13, 0.88, 16, 1.05],
           'icon-allow-overlap': true,
           'icon-ignore-placement': true,
         },
@@ -359,6 +384,10 @@ export const MapView = forwardRef<MapViewHandle, MapViewProps>(function MapView(
         if (!id) return;
         const place = placesByIdRef.current.get(id);
         if (!place) return;
+        avatarMarkerRef.current
+          ?.getElement()
+          .querySelector('.avatar-bubble')
+          ?.classList.remove('visible');
         onSelectPlaceRef.current(place);
         map.easeTo({
           center: [place.lng, place.lat],

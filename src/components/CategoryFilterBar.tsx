@@ -74,15 +74,22 @@ export function CategoryFilterBar({
               style={
                 isActive
                   ? {
-                      backgroundColor: cat.color,
-                      borderColor: cat.color,
-                      color: '#FAF6F0',
+                      background: `linear-gradient(135deg, ${cat.color}, ${cat.colorDark})`,
+                      borderColor: cat.colorDark,
+                      color: '#FFFDF9',
+                      boxShadow: `0 4px 12px ${cat.tintBorder}`,
                     }
                   : undefined
               }
               onClick={() => onToggleCategory(cat.id)}
             >
-              <span aria-hidden="true">{cat.emoji}</span>
+              <span
+                className="chip-emoji-dot"
+                style={!isActive ? { backgroundColor: cat.softBg } : undefined}
+                aria-hidden="true"
+              >
+                {cat.emoji}
+              </span>
               <span>{cat.pluralLabel}</span>
             </button>
           );
